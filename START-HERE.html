@@ -1,0 +1,473 @@
+<!doctype html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  對外交付「引導式教學頁」母模板（onboarding START-HERE）            ║
+  ║  來源：kg-bilingual-subtitle delivery-example-Tony/START-HERE.html  ║
+  ║  版型皮＝宿遷課程筆記（金萱／公司色／螢光筆／左側數字目錄／ribbon13）║
+  ║                                                                    ║
+  ║  ▶ 怎麼用：把所有 {{...}} 佔位符換掉即成新 skill 的引導頁。         ║
+  ║    完整佔位符清單＋填法見同層 onboarding-fill-guide.md。            ║
+  ║  ▶ 打包通則三件套（rules/skill-packaging-signature.md）：           ║
+  ║    ①demo 成品 ②本引導頁 ③「小腸老師」署名＋canary＋LICENSE。        ║
+  ║  ▶ 每個對象換獨立 KG-SRC-2026-10（禁共用），並登錄 canary 台帳。        ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<!-- 知識包小腸 knowledgegut.com · © 2026 · 授權：朋友 · 2026-10-16 -->
+<!-- KG-SRC-2026-10 -->
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>蒐證幫手｜開始這裡 · 知識包小腸</title>
+<style>
+  /* 🔴 2026-09-24：原本這裡有一段字型宣告，指向付費字型「金萱那提」的 web 字型檔。
+     公司字型紅線是「對外交付一律不附字型檔，付費字型絕對不給，不分交付模式」，
+     check_delivery_pack.py 也會把包裡任何字型檔判成打包失敗。
+     母模板帶著那段宣告＝每個照它做的包都被引導去附字型檔 ，
+     2026-08-30「微信學員包 8 個 zip 全嵌金萱」就是這樣來的。
+     → 標題字改系統字型堆疊。要用品牌字型只限「我們自己的網站」自架 webfont，
+       那不等於把字型檔送人，跟本模板無關。 */
+  :root{
+    --rose:#D14B63; --purple:#4C458A; --yellow:#F4D03F; --peach:#F4B79C; --sky:#B8D6F5;
+    --ink:#3C3535; --grey:#5F5454; --line:#E6E3E4; --bg:#FAF7F2; --card:#FFFFFF;
+    --bar-h:56px;
+    --font-h:'PingFang TC','Heiti TC','Microsoft JhengHei','Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.9;font-size:17px;letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+  h1,.b-zh,.path h3,.about .nm,.cta-title,.fc-term{font-family:var(--font-h)}
+  [id]{scroll-margin-top:calc(var(--bar-h) + 16px)}
+
+  /* ═══ 常駐頁首 BANNER ═══ */
+  .topbar{position:fixed;top:0;left:0;right:0;height:var(--bar-h);z-index:400;
+    background:rgba(255,255,255,.92);backdrop-filter:saturate(1.5) blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:0 2px 14px rgba(95,84,84,.06);
+    display:flex;align-items:center;gap:16px;padding:0 20px}
+  .tb-logo{height:34px;flex-shrink:0}
+  .tb-logo img{height:100%;display:block}
+  .tb-mid{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;line-height:1.25}
+  .tb-mid .t1{font-size:15px;font-weight:800;color:var(--purple);font-family:var(--font-h);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-mid .t2{font-size:12px;color:var(--grey);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tb-promo{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:12.5px;font-weight:700;color:var(--rose);
+    background:rgba(244,208,63,.20);border:1px solid #f0e2ad;border-radius:999px;padding:6px 14px;text-decoration:none}
+  .tb-promo:hover{background:rgba(244,208,63,.34)}
+  @media(max-width:860px){.tb-mid .t2,.tb-promo{display:none}.topbar{gap:10px;padding:0 12px 0 58px}}
+
+  /* ═══ 公司光澤漸層下載鈕（粉→黃＋掃光，品牌指定樣式）═══ */
+  .kg-dl{position:relative;overflow:hidden;background:linear-gradient(120deg,#F9C9D6,#FBE7A0)!important;color:#7a5148!important;border:none!important;font-weight:800;box-shadow:0 5px 16px rgba(244,183,156,.45)!important}
+  .kg-dl::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.82),transparent);transform:skewX(-20deg);transition:left .6s ease;pointer-events:none}
+  .kg-dl:hover::before{left:130%}
+  .kg-dl:hover{filter:brightness(1.02);transform:translateY(-1px)}
+  .kg-dl>*{position:relative;z-index:1}
+  .kg-dl small{color:#7a5148!important;opacity:.85}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px 90px}
+
+  .main{margin-left:248px}
+  .sidebar{position:fixed;top:var(--bar-h);left:0;bottom:0;width:248px;z-index:200;background:var(--card);border-right:1px solid var(--line);padding:22px 16px 30px;overflow-y:auto}
+  .sb-dl{display:flex;gap:8px;align-items:center;justify-content:center;margin:14px 6px 4px;font-size:14px;text-decoration:none;border-radius:12px;padding:11px}
+  .sb-brand{display:flex;align-items:center;gap:9px;padding:0 10px 4px}
+  .sb-brand .dot{font-size:20px}
+  .sb-title{font-size:17px;font-weight:800;color:var(--purple);padding:0 10px 4px;line-height:1.4;font-family:var(--font-h)}
+  .sb-sub{font-size:12px;color:var(--grey);padding:0 10px 16px;letter-spacing:.04em}
+  .sidebar nav a{display:flex;gap:9px;align-items:center;text-decoration:none;color:var(--grey);font-size:14.5px;font-weight:600;padding:9px 12px;border-radius:10px;margin-bottom:2px;transition:.14s}
+  .sidebar nav a .n{display:inline-flex;width:20px;height:20px;flex-shrink:0;border-radius:50%;background:var(--line);color:var(--grey);font-size:12px;font-weight:800;align-items:center;justify-content:center}
+  .sidebar nav a:hover{background:var(--bg);color:var(--rose)}
+  .sidebar nav a:hover .n{background:var(--peach);color:#fff}
+  .sidebar nav a.active{background:rgba(209,75,99,.10);color:var(--rose);font-weight:800}
+  .sidebar nav a.active .n{background:var(--rose);color:#fff}
+  .menu-btn{display:none;position:fixed;top:8px;left:12px;z-index:500;background:var(--rose);color:#fff;border:none;border-radius:10px;width:40px;height:40px;font-size:19px;cursor:pointer;box-shadow:0 4px 12px rgba(209,75,99,.32)}
+  .backdrop{display:none;position:fixed;inset:0;z-index:150;background:rgba(60,53,53,.4)}
+  @media(max-width:860px){.main{margin-left:0}.sidebar{transform:translateX(-100%);transition:.22s}.sidebar.open{transform:none}.menu-btn{display:block}.backdrop.open{display:block}}
+
+  header{text-align:center;padding:calc(var(--bar-h) + 40px) 22px 26px;background:var(--bg)}
+  .eyebrow{display:inline-block;font-size:13px;letter-spacing:.30em;color:var(--rose);font-weight:700;margin-bottom:16px}
+  h1{font-size:38px;line-height:1.24;color:var(--purple);font-weight:800;letter-spacing:.02em}
+  .meta{margin-top:18px;font-size:16px;color:var(--grey)}
+  .hero-btns{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .dlbtn{border:0;cursor:pointer;font-size:16px;color:#fff;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    background:var(--rose);border-radius:999px;padding:14px 30px;box-shadow:0 8px 20px rgba(209,75,99,.32)}
+  .dlbtn:hover{filter:brightness(1.04);transform:translateY(-1px)}
+  .dlbtn small{font-weight:600;opacity:.9;font-size:12.5px}
+  .startbtn{border:1px solid var(--line);cursor:pointer;font-size:15px;color:var(--rose);font-weight:700;background:var(--card);border-radius:999px;padding:13px 24px}
+  .startbtn:active{transform:translateY(1px)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 30px;margin:0 0 22px;box-shadow:0 8px 24px rgba(95,84,84,.06)}
+  .intro{font-size:17px;color:var(--grey)}
+  .intro b{color:var(--rose)}
+
+  .band{margin:48px 0 22px;padding-bottom:12px;border-bottom:2px solid var(--line)}
+  .band .b-en{font-size:12px;letter-spacing:.26em;color:var(--rose);font-weight:700}
+  .band .b-zh{font-size:26px;color:var(--purple);font-weight:800;margin-top:6px;
+    background-image:linear-gradient(transparent 54%,var(--yellow) 54%);background-repeat:no-repeat;background-position:left center;background-size:0% 100%;
+    padding:.06em 4px;display:inline;line-height:1.9;box-decoration-break:clone;-webkit-box-decoration-break:clone;transition:background-size .7s cubic-bezier(.4,0,.2,1)}
+  .band .b-zh.kg-sweep{background-size:100% 100%}
+  @media(prefers-reduced-motion:reduce){.band .b-zh{background-size:100% 100%;transition:none}}
+
+  .flowchart{display:flex;flex-direction:column;align-items:center;gap:0;margin:8px 0 6px}
+  .fc-term{background:var(--peach);color:#5b3a2c;font-weight:800;font-size:15px;border-radius:999px;padding:11px 26px;text-align:center;box-shadow:0 4px 14px rgba(244,183,156,.4)}
+  .fc-proc{width:100%;max-width:560px;background:var(--card);border:2px solid var(--purple);border-radius:12px;padding:16px 22px;box-shadow:0 5px 18px rgba(76,69,138,.10);display:flex;align-items:center;gap:14px}
+  .fc-proc .n{width:32px;height:32px;flex-shrink:0;border-radius:50%;background:var(--rose);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:16px}
+  .fc-proc .t b{font-size:17px;color:var(--ink);font-weight:800;display:block}
+  .fc-proc .t span{font-size:14px;color:var(--grey)}
+  .fc-arrow{width:2px;height:26px;background:var(--purple);position:relative;opacity:.5}
+  .fc-arrow::after{content:"";position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--purple)}
+
+  /* 三種用法卡 */
+  .path{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 26px;margin-bottom:18px;box-shadow:0 4px 16px rgba(95,84,84,.05)}
+  .path .ptag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.03em;padding:5px 12px;border-radius:999px;background:var(--line);color:var(--grey);margin-bottom:10px}
+  .path .ptag.best{background:var(--rose);color:#fff}
+  .path h3{font-size:19px;color:var(--purple);font-weight:800;margin-bottom:8px}
+  .path ol{margin:6px 0 0;padding-left:20px}
+  .path ol li{margin-bottom:9px;color:var(--grey)}
+  .path ol li b{color:var(--ink)}
+  .filelink{color:var(--rose);font-weight:700;text-decoration:none;border-bottom:1px solid #f0c6d0}
+  .copybox{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+  .copybox code{flex:1;min-width:220px;background:#2c2733;color:#f3eef8;border-radius:9px;padding:9px 12px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;overflow-x:auto;white-space:nowrap}
+  .cp{border:0;cursor:pointer;background:rgba(209,75,99,.10);color:var(--rose);border:1px solid #f0c6d0;border-radius:9px;padding:9px 14px;font-size:13px;white-space:nowrap;font-weight:700}
+  .cp.done{background:var(--rose);color:#fff;border-color:var(--rose)}
+  .tip{margin-top:10px;font-size:14px;color:var(--grey);background:rgba(244,208,63,.16);border-radius:10px;padding:10px 14px;line-height:1.7}
+  .tip b{color:var(--purple)}
+  .kbd{background:#f0ecf5;border:1px solid #dcd6ea;border-radius:6px;padding:1px 7px;font-size:13.5px;color:var(--purple);font-weight:700;white-space:nowrap}
+  /* 進階摺疊 */
+  details.adv{background:var(--card);border:1px dashed var(--line);border-radius:16px;padding:6px 22px;margin-bottom:18px}
+  details.adv summary{cursor:pointer;font-weight:700;color:var(--grey);padding:12px 0;list-style:none}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ ";color:var(--rose)}
+  details.adv[open] summary::before{content:"▾ "}
+  .ostabs{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px;margin:6px 0 16px}
+  .ost{border:0;cursor:pointer;background:none;color:var(--grey);font-weight:700;font-size:14px;padding:7px 18px;border-radius:999px}
+  .ost.active{background:var(--rose);color:#fff}
+  body.os-mac .win-only{display:none}
+  body.os-win .mac-only{display:none}
+  .prep{background:rgba(184,214,245,.16);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-bottom:14px}
+  .prep .pt{font-weight:800;color:var(--purple);margin-bottom:4px}
+  .astep{margin-bottom:14px}.astep .st{font-weight:bold;font-size:1rem;background:var(--line);padding:6px 11px;display:inline-block;margin-bottom:6px;text-transform:uppercase;color:var(--grey);box-shadow:0 1px 5px rgba(0,0,0,.2);border-radius:20px}
+  .astep ol{padding-left:20px}.astep ol li{margin-bottom:8px;color:var(--grey)}.astep ol li b{color:var(--ink)}
+
+  .sample{background:rgba(244,183,156,.16);border:1px solid var(--line);border-radius:16px;padding:22px 24px}
+  .sample .zh{font-weight:700;color:var(--ink);font-size:17px}
+  .sample .en{color:var(--grey);font-size:15.5px;margin-top:4px}
+  /* 成品 demo 卡（一條條對照；🔴 禁左邊色條，用淡桃底）*/
+  .subrow{background:rgba(244,183,156,.14);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:10px}
+  .subrow .tc{font-size:11.5px;color:#b3a9af;font-weight:700;letter-spacing:.03em;margin-bottom:4px}
+  .subrow .zh{font-weight:700;color:var(--ink);font-size:16px;line-height:1.6}
+  .subrow .en{color:var(--grey);font-size:14.5px;margin-top:2px;line-height:1.5}
+  .demo-links{margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .demo-dl{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:800;text-decoration:none;border-radius:999px;padding:10px 20px}
+  /* 回饋一下區（ONE SMALL FAVOR）*/
+  .fb-card{background:linear-gradient(180deg,#fff,#fffdf7);border:1px solid #f0e7cf}
+  .fb-lead{font-size:16px;color:var(--ink);line-height:1.85}
+  .fb-lead b{color:var(--rose)}
+  .fb-opts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0 6px}
+  @media(max-width:680px){.fb-opts{grid-template-columns:1fr}}
+  .fbopt{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;display:flex;flex-direction:column}
+  .fbopt-tag{align-self:flex-start;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+  .fbopt-tag.a{background:rgba(6,199,85,.14);color:#077338}
+  .fbopt-tag.b{background:rgba(76,69,138,.12);color:var(--purple)}
+  .fbopt h3{font-size:18px;color:var(--purple);font-weight:800;margin-bottom:8px;font-family:var(--font-h)}
+  .fbopt p{font-size:14.5px;color:var(--grey);line-height:1.8;margin-bottom:14px}
+  .fbopt p b{color:var(--ink)}
+  .fbopt .copybox{margin:0 0 14px}
+  .fbopt .copybox code{font-size:12px;white-space:normal;line-height:1.7}
+  .fb-btn{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;color:#fff;font-weight:800;font-size:15.5px;text-decoration:none;border-radius:999px;padding:13px 22px;transition:.15s}
+  .fb-btn:hover{filter:brightness(1.05);transform:translateY(-1px)}
+  .fb-btn.line{background:#06C755;box-shadow:0 8px 20px rgba(6,199,85,.26)}
+  .fb-btn.threads{background:#111;box-shadow:0 8px 20px rgba(0,0,0,.24)}
+  .fb-note{text-align:center;font-size:14px;color:var(--grey);margin-top:14px}
+
+  .about{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+  .about .pic{flex:0 0 auto;width:240px;transform:rotate(-3deg);filter:drop-shadow(0 12px 26px rgba(60,40,70,.22))}
+  .about .pic img{width:100%;display:block;border-radius:6px}
+  .about .bio{flex:1;min-width:240px}
+  .about .role{color:var(--rose);font-weight:800;font-size:14px;letter-spacing:.06em}
+  .about .nm{font-size:26px;font-weight:800;color:var(--purple);margin:2px 0 6px}
+  .about .slogan{font-size:17px;color:var(--ink);font-weight:700;margin-bottom:8px}
+  .about .desc{font-size:15px;color:var(--grey)}
+  .about .stat{margin-top:10px;font-size:14px;color:var(--grey)}
+  .about .stat b{color:var(--rose)}
+
+  .ribbon13-wrapper{display:block;position:relative;margin:8px auto 0;padding:26px 6%;max-width:640px;width:auto;background:var(--bg);border:1px solid #eee6df;border-radius:16px;box-shadow:0 10px 30px rgba(95,84,84,.12);box-sizing:border-box;text-align:center}
+  .ribbon13{display:inline-block;position:relative;box-sizing:border-box;padding:10px 0;left:-20px;margin:0 0 14px -20px;width:calc(100% + 20px);color:#2C2C2C;background:var(--peach);line-height:20px;border-radius:5px}
+  .ribbon13 h4{margin:0;padding:0 30px 0 15px;border-top:dashed 1px #FFF;border-bottom:dashed 1px #FFF;font-size:17px;line-height:38px;color:#2C2C2C;font-weight:800}
+  .ribbon13:after{position:absolute;content:'';z-index:1;top:0;right:0;width:0;height:0;border-width:29px 15px 29px 0;border-color:transparent var(--bg) transparent transparent;border-style:solid}
+  .ribbon13:before{position:absolute;content:'';top:97%;left:0;border:none;border-bottom:solid 15px transparent;border-right:solid 20px #D98E83}
+  .ribbon13-wrapper img{display:block;width:100%;max-width:580px;margin:6px auto 4px;border-radius:12px;box-shadow:0 6px 20px rgba(95,84,84,.14)}
+  .pgo{text-align:center;color:var(--rose);font-size:14px;font-weight:700;margin:8px 0 12px}
+  .cta-title{text-align:center;color:var(--purple);font-weight:800;font-size:19px;margin:10px 0 10px}
+  .promo-p{color:var(--grey);line-height:1.85;text-align:left;font-size:15.5px;margin-bottom:8px}
+  .cta-days{list-style:none;padding:0;margin:12px auto 4px;max-width:340px;text-align:left}
+  .cta-days li{padding:5px 0;color:var(--grey);font-size:15px;border-bottom:1px dashed var(--line)}
+  .cta-days li b{color:var(--purple)}
+  .cta-btn{display:inline-block;text-decoration:none;background:var(--rose);color:#fff;font-weight:800;font-size:16px;border-radius:999px;padding:14px 30px;margin-top:18px;box-shadow:0 6px 18px rgba(209,75,99,.30)}
+
+  footer{text-align:center;color:#6E6E6E;font-size:12.5px;margin-top:36px;line-height:1.9}
+
+  .fabs{position:fixed;right:20px;bottom:20px;z-index:120;display:flex;flex-direction:column;gap:10px}
+  .fab{position:relative;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);cursor:pointer;background:var(--card);color:var(--rose);box-shadow:0 5px 16px rgba(95,84,84,.22);font-size:19px;display:flex;align-items:center;justify-content:center;transition:.15s}
+  .fab:hover{background:var(--rose);color:#fff;transform:translateY(-2px)}
+  .fab .lbl{position:absolute;right:56px;white-space:nowrap;background:var(--ink);color:#fff;font-size:12px;padding:4px 9px;border-radius:8px;opacity:0;pointer-events:none;transition:.15s}
+  .fab:hover .lbl{opacity:.95}
+  #toTop{display:none}
+  @media(max-width:860px){.fabs{right:14px;bottom:14px}.fab{width:44px;height:44px;font-size:18px}}
+
+  #tour{position:fixed;inset:0;z-index:500;display:none}#tour.on{display:block}
+  #mask{position:absolute;inset:0}
+  #spot{position:absolute;border-radius:16px;box-shadow:0 0 0 9999px rgba(44,32,42,.55);transition:.2s;pointer-events:none}
+  #ring{position:absolute;border:3px solid transparent;border-radius:16px;
+    background:linear-gradient(120deg,#FAE9AA,#FED1D4,#D4CAF2,#A5E0F7) border-box;
+    -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    transition:.2s;pointer-events:none}
+  #tip2{position:absolute;max-width:320px;background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 12px 40px rgba(40,20,50,.3)}
+  #tip2 .tnum{font-size:12px;color:var(--rose);font-weight:800;letter-spacing:1px}
+  #tip2 p{margin:.4em 0 1em;font-size:14.5px;color:var(--ink)}
+  #tip2 .row{display:flex;justify-content:space-between;align-items:center}
+  #tip2 .skip{background:none;border:0;color:var(--grey);cursor:pointer;font-size:13px}
+  #tip2 .next{border:0;cursor:pointer;color:#fff;background:var(--rose);border-radius:999px;padding:8px 18px;font-size:14px;font-weight:700}
+</style>
+</head>
+<body class="os-mac">
+
+<!-- ═══ 常駐頁首 BANNER（logo 放 assets/kg-logo.png；下載鈕用公司光澤漸層 kg-dl）═══ -->
+<div class="topbar" id="topbar">
+  <a class="tb-logo" href="https://knowledgegut.com" target="_blank" rel="noopener"><img src="assets/kg-logo.png" alt="知識包小腸"></a>
+  <div class="tb-mid">
+    <div class="t1">蒐證幫手</div>
+    <div class="t2">知識包小腸 · 丟截圖、講經過，整理成能送件的報告 · 免費 · 資料不上傳</div>
+  </div>
+  <a class="tb-promo" href="https://join.knowledgegut.com/heptabase-7-days-workshop" target="_blank" rel="noopener">🎁 免費 7 天知識庫工作坊</a>
+  <a class="dlbtn kg-dl" href="https://github.com/knowledgegut/evidence-helper/archive/refs/heads/main.zip" download style="padding:9px 20px;font-size:14px;box-shadow:0 5px 14px rgba(244,183,156,.42)">⬇ 下載工具<small>（.zip）</small></a>
+</div>
+
+<button class="menu-btn" onclick="toggleMenu()">☰</button>
+<div class="backdrop" id="bd" onclick="toggleMenu()"></div>
+<aside class="sidebar" id="sb">
+  <div class="sb-brand"><span class="dot">🌭</span><span class="sb-title">蒐證幫手</span></div>
+  <div class="sb-sub">知識包小腸 · 丟截圖、講經過，整理成能送件的報告 · 免費 · 資料不上傳</div>
+  <nav>
+    <div class="grp">開始</div>
+    <a href="#what" class="active"><span class="n">1</span>這是什麼</a>
+    <a href="#flow"><span class="n">2</span>教學流程圖</a>
+    <div class="grp">動手做</div>
+    <a href="#do"><span class="n">3</span>兩種用法</a>
+    <a href="#sample"><span class="n">4</span>成品 demo</a>
+    <div class="grp">其他</div>
+    <a href="#about"><span class="n">5</span>關於小腸</a>
+    <a href="#feedback"><span class="n">6</span>🙏 回饋一下</a>
+    <a href="#gift"><span class="n">7</span>🎁 免費資源</a>
+  </nav>
+  <a class="sb-dl kg-dl" href="https://github.com/knowledgegut/evidence-helper/archive/refs/heads/main.zip" download><span>⬇ 下載這個工具</span></a>
+</aside>
+
+<div class="main">
+  <header>
+    <span class="eyebrow">知識包小腸 · 免費工具</span>
+    <h1>被坑了？<br>把證據整理成能送件的報告</h1>
+    <p class="meta">不用註冊 ﹒ 交給你自己的 AI 整理 ﹒ 資料不上傳 ﹒ 全程 0 元</p>
+    <div class="hero-btns">
+      <a class="dlbtn kg-dl" href="https://github.com/knowledgegut/evidence-helper/archive/refs/heads/main.zip" download><span>⬇ 下載這個工具</span><small>（.zip · 離線用）</small></a>
+      <button class="startbtn" onclick="startTour(true)">▶ 第一次來？帶你看懂</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+
+    <!-- 【簡介區】一句話 hook：這工具是什麼、幫對方解決什麼。保留「不用會寫程式、交給你的 AI」精神 -->
+    <section id="what" class="card intro">
+      <p>Hi 朋友 👋 被爛平台、爛店、培訓營坑了，氣到不知道從哪裡開始？這是小腸老師做的免費工具：<b>丟截圖、用你自己的話講經過</b>，交給你習慣用的 AI 整理，就會自動生成一份<b>有條理、能送件的報告 PDF</b>。每條證據都標清楚「站多穩」，幫你討公道，<b>不讓你一時氣憤告過頭</b>。</p>
+    </section>
+
+    <div class="band" id="flow"><div class="b-en">HOW IT WORKS</div><div class="b-zh">教學流程圖</div></div>
+    <!-- 【流程圖】起點 term → 3 個 proc 步驟 → 終點 term。步數可增減（成對加 fc-proc + fc-arrow） -->
+    <div class="flowchart">
+      <div class="fc-term">📸 你的截圖＋你講的經過</div>
+      <div class="fc-arrow"></div>
+      <div class="fc-proc"><span class="n">1</span><span class="t"><b>丟進蒐證幫手</b><span>截圖照時間順序放，經過像跟朋友抱怨一樣講就好</span></span></div>
+      <div class="fc-arrow"></div>
+      <div class="fc-proc"><span class="n">2</span><span class="t"><b>交給你的 AI</b><span>一鍵複製整理指令，貼給 ChatGPT／Gemini／Claude／豆包，再丟截圖</span></span></div>
+      <div class="fc-arrow"></div>
+      <div class="fc-proc"><span class="n">3</span><span class="t"><b>貼回來，自動出報告</b><span>把 AI 的回覆整段貼回來，逐句核對後印成 PDF</span></span></div>
+      <div class="fc-arrow"></div>
+      <div class="fc-term">✅ 一份能送件的報告 PDF</div>
+    </div>
+
+    <div class="band" id="do"><div class="b-en">HOW TO USE</div><div class="b-zh">兩種用法，挑最適合你的</div></div>
+
+    <div class="path">
+      <span class="ptag best">最推薦 · 打開就能用</span>
+      <h3>① 直接用線上版</h3>
+      <ol>
+        <li>手機或電腦打開 <a class="filelink" href="https://knowledgegut.com/evidence" target="_blank" rel="noopener">https://knowledgegut.com/evidence</a>，不用註冊、不用下載。</li>
+        <li>照頁面上的 ①②③ 步驟走：丟截圖講經過 → 一鍵複製指令貼給你的 AI → 把 AI 的回覆貼回來。</li>
+        <li>報告出來後<b>逐句核對</b>，按「印出／存成 PDF」就完成 🎉</li>
+      </ol>
+    </div>
+
+    <div class="path">
+      <span class="ptag">想離線用 · 不用安裝任何東西</span>
+      <h3>② 下載到自己的電腦</h3>
+      <ol>
+        <li>按上面「下載這個工具」，解壓縮後打開 <b>evidence-helper-main</b> 資料夾。</li>
+        <li>用瀏覽器打開裡面的 <a class="filelink" href="index.html">index.html</a>，斷網也能用。</li>
+        <li>用法跟線上版一樣；草稿只存在這台電腦，按「清空」就刪掉。</li>
+      </ol>
+      <div class="tip">💡 這是整理工具，不是法律意見。報告是「送件用」不是「公審用」：交給官方、平台、律師或對方本人就好，不要公開張貼。</div>
+    </div>
+
+    <div class="band" id="sample"><div class="b-en">RESULT · 成品 DEMO</div><div class="b-zh">先看成品長怎樣</div></div>
+    <!-- 【成品 demo 區｜打包通則①：一定要放真實成品】三種格式擇一（依 skill 產出物）：
+         ▸ 影片型（如 Andy 直式切片）：<section class="sample"><video src="samples/demo.mp4" controls playsinline preload="metadata"></video><p>▲ 說明</p></section>
+         ▸ 逐條對照型（如字幕）：用下方 .subrow 卡（一條條，禁左色條）
+         ▸ 圖片型：<section class="sample"><img src="samples/demo.png" style="width:100%;border-radius:12px"><p>▲ 說明</p></section>
+         下方預設逐條對照範式，用不到就整段換掉。 -->
+    <section class="sample">
+      <video src="demo/evidence-helper-demo.mp4" controls playsinline preload="metadata" poster="og.jpg"
+             style="width:100%;max-width:380px;border-radius:14px;display:block;margin:0 auto"></video>
+      <p style="margin:12px 0 0;font-size:15px;color:var(--grey);text-align:center">▲ 從丟內容到報告出來（範例是虛構案例，換成你自己的就會做出你的報告）</p>
+      <div class="demo-links">
+        <a class="demo-dl kg-dl" href="demo/evidence-helper-demo.mp4" download><span>⬇ 下載示範影片</span></a>
+      </div>
+    </section>
+
+    <!-- 【品牌署名區｜對外交付模式保留】about-小腸 + free-gift 是刻意的「小腸老師」人物植入＋lead magnet，
+         對外交付給學員/客戶時「保留原樣」（勿抽）。若是「給友人自行改品牌」的分享包 → 刪這兩段換對方品牌。 -->
+    <div class="band" id="about"><div class="b-en">ABOUT</div><div class="b-zh">關於小腸</div></div>
+    <section class="card">
+      <div class="about">
+        <div class="pic"><img src="assets/xiaochang-polaroid.webp" alt="小腸"></div>
+        <div class="bio">
+          <div class="role">AI 第二大腦應用師</div>
+          <div class="nm">小腸 🌭</div>
+          <div class="slogan">把知識變資產，讓經驗可複利</div>
+          <div class="desc">台灣的知識博主，教 AI Agent 與 OPC（一人公司），專做知識管理與數位第二大腦。這個小工具就是我用 AI 幫學生做的其中一個 ， 把雜亂的知識，理成能被 AI 調用的第二大腦。</div>
+          <div class="stat">3 年 OPC 數位遊牧 ﹒ <b>2,000+</b> 學生</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 【回饋一下區｜對外交付建議保留】兩選項：LINE 錄影片回饋（最有溫度）＋社群標記發文（最快）。
+         LINE/Threads 是小腸品牌帳號保留；只有影片提示與貼文文案是 skill 專屬（換 {{FEEDBACK_*}}）。 -->
+    <div class="band" id="feedback"><div class="b-en">ONE SMALL FAVOR</div><div class="b-zh">用完後，幫我一個小忙 🙏</div></div>
+    <section class="card fb-card">
+      <p class="fb-lead">如果這個工具有幫到你，想拜託你回饋一下 ， <b>下面兩種挑一個做就好，兩個都做我會超級感謝你 🥹</b>。你的回饋會直接影響我把它做得更好。</p>
+      <div class="fb-opts">
+        <div class="fbopt">
+          <div class="fbopt-tag a">方式一 · 最有溫度</div>
+          <h3>🎥 錄一段回饋影片給我</h3>
+          <p>用手機隨手錄 30～60 秒，講你拿它整理了什麼事、哪裡最有幫助、還希望多一個什麼功能就好，不用剪、不用美化。（報告內容有個資，請不要錄到報告本身。）</p>
+          <a class="fb-btn line" href="https://lin.ee/iReNMS5" target="_blank" rel="noopener">💬 加小腸 LINE，傳影片給我</a>
+        </div>
+        <div class="fbopt">
+          <div class="fbopt-tag b">方式二 · 最快 30 秒</div>
+          <h3>📱 在社群發文＋標記我</h3>
+          <p>在 <b>Threads / Facebook</b> 或任何社群發一則貼文，寫幾句心得、<b>標記 @knowledgegut</b>（小腸），讓更多人看到就行。懶得想文案？下面幫你寫好了，複製直接改：</p>
+          <div class="copybox"><code id="fbcopy">被坑了不知道從哪裡開始的話，推薦小腸老師 @knowledgegut 做的免費「蒐證幫手」：丟截圖、講經過，交給自己的 AI 整理成能送件的報告，資料不上傳。 https://knowledgegut.com/evidence</code>
+            <button class="cp" onclick="cp(this,document.getElementById('fbcopy').textContent)">複製文案</button></div>
+          <a class="fb-btn threads" href="https://www.threads.net/@knowledgegut" target="_blank" rel="noopener">🧵 打開小腸的 Threads 標記我</a>
+        </div>
+      </div>
+      <p class="fb-note">真的很謝謝你 ， 每一則回饋跟每一次標記，對一個一人公司都是超大的幫助 🙏</p>
+    </section>
+
+    <div class="band" id="gift"><div class="b-en">FREE GIFT</div><div class="b-zh">送你一份免費資源</div></div>
+    <div class="ribbon13-wrapper">
+      <div class="ribbon13"><h4>🎁 感謝你看到這裡！我準備了免費資源送你 ⬇</h4></div>
+      <a href="https://join.knowledgegut.com/heptabase-7-days-workshop" target="_blank" rel="noopener">
+        <img src="assets/heptabase_workshop.webp" alt="7 天上手 Heptabase 免費工作坊"></a>
+      <p class="pgo">▲ 點圖領禮物 🎁 ▲</p>
+      <p class="cta-title">《7 天上手 Heptabase 工作坊！從 0 開始打造你的知識庫》</p>
+      <p class="promo-p">這是一堂我花了一整個月製作的「<b>免費線上課程</b>」。只要看完 7 天工作坊、依步驟完成作業，就能徹底改變你的筆記方式，建立你專屬的第二大腦！</p>
+      <p class="promo-p">我會手把手（影片＋文字）每天帶你完成一個任務：</p>
+      <ul class="cta-days">
+        <li><b>Day 1</b> ✅ 導航地圖</li>
+        <li><b>Day 2</b> ✅ 夢想板</li>
+        <li><b>Day 3</b> ✅ 靈感包</li>
+        <li><b>Day 4</b> ✅ 感恩日記</li>
+        <li><b>Day 5</b> ✅ 組織圖</li>
+        <li><b>Day 6</b> ✅ 閱讀筆記</li>
+        <li><b>Day 7</b> ✅ AI 摘要</li>
+      </ul>
+      <p class="promo-p" style="text-align:center;margin-top:10px">每天只要 10 分鐘，7 天就學會囉！</p>
+      <a class="cta-btn" href="https://join.knowledgegut.com/heptabase-7-days-workshop" target="_blank" rel="noopener">🎁 免費領取：7 天上手 Heptabase 工作坊</a>
+    </div>
+
+    <footer>
+      知識包小腸 · knowledgegut.com　©&nbsp;2026　·　授權：朋友（2026-10-16）<br>
+      僅授權個人學習使用，禁轉散 / 商用。詳見 LICENSE.txt。有問題隨時問小腸 🌭
+      <!-- KG-SRC-2026-10 -->
+    </footer>
+  </div>
+</div>
+
+<div class="fabs">
+  <button class="fab" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到最上面"><span class="lbl">回到最上面</span>↑</button>
+  <button class="fab" onclick="startTour(true)" title="重看教學"><span class="lbl">重看教學</span>🎓</button>
+</div>
+
+<div id="tour" aria-hidden="true">
+  <div id="mask" onclick="endTour()"></div>
+  <div id="spot"></div>
+  <div id="ring"></div>
+  <div id="tip2">
+    <div class="tnum" id="tnum"></div>
+    <p id="ttext"></p>
+    <div class="row"><button class="skip" onclick="endTour()">略過</button><button class="next" id="tnext" onclick="nextTour()">下一步 →</button></div>
+  </div>
+</div>
+
+<script>
+  function toggleMenu(){document.getElementById('sb').classList.toggle('open');document.getElementById('bd').classList.toggle('open');}
+  function setOS(os){document.body.className='os-'+os;document.querySelectorAll('.ost').forEach(b=>b.classList.toggle('active',b.dataset.os===os));}
+  const links=[...document.querySelectorAll('.sidebar nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  addEventListener('scroll',()=>{
+    document.getElementById('toTop').style.display=scrollY>400?'flex':'none';
+    if(document.getElementById('tour').classList.contains('on'))return;   // 導覽進行中由 tour 自己點亮步驟
+    let i=secs.length-1;for(let k=0;k<secs.length;k++){if(secs[k]&&secs[k].getBoundingClientRect().top>140){i=k-1;break;}}
+    links.forEach(l=>l.classList.remove('active'));if(i>=0)links[i].classList.add('active');});
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('kg-sweep')}),{threshold:.6});
+  document.querySelectorAll('.b-zh').forEach(el=>io.observe(el));
+
+  const STEPS=[
+    {el:'#topbar', nav:'#what', t:'頁首常駐列', p:'這條會一直跟著你：左邊小腸 logo、中間工具名，右邊「下載工具」隨時都能點。'},
+    {el:'#flow', nav:'#flow', t:'這是「教學流程圖」', p:'整個工具的邏輯就三步：丟截圖講經過 → 交給你的 AI → 貼回來自動出報告。'},
+    {el:'#do', nav:'#do', t:'兩種用法挑一個', p:'最推薦第①種：直接打開線上版，照頁面上的三步走就好。想離線用再下載。'},
+    {el:'#sample', nav:'#sample', t:'成品長這樣', p:'40 秒示範影片，從丟內容到報告出來（範例是虛構案例）。'},
+    {el:'#gift', nav:'#gift', t:'還有免費禮物 🎁', p:'看到最後有我送你的免費 Heptabase 工作坊，點圖就能領。'}
+  ];
+  let idx=0;
+  const ring=document.getElementById('ring'),spot=document.getElementById('spot'),tip=document.getElementById('tip2'),tour=document.getElementById('tour');
+  function drawFor(el){
+    const vw=innerWidth,vh=innerHeight,pad=8,r=el.getBoundingClientRect();
+    const top=Math.max(10,r.top-pad),bot=Math.min(vh-10,r.bottom+pad);
+    ring.style.top=top+'px';ring.style.left=Math.max(10,r.left-pad)+'px';
+    ring.style.width=Math.min(vw-20,r.width+pad*2)+'px';ring.style.height=Math.max(30,bot-top)+'px';
+    spot.style.top=ring.style.top;spot.style.left=ring.style.left;spot.style.width=ring.style.width;spot.style.height=ring.style.height;
+    const tw=tip.offsetWidth,th=tip.offsetHeight;
+    tip.style.left=Math.min(Math.max(12,(vw-tw)/2),vw-tw-12)+'px';
+    tip.style.top=(((r.top+r.bottom)/2)<vh/2?(vh-th-24):24)+'px';
+  }
+  function place(){
+    const s=STEPS[idx],el=document.querySelector(s.el);if(!el)return nextTour();
+    document.getElementById('tnum').textContent='步驟 '+(idx+1)+' / '+STEPS.length;
+    links.forEach(l=>l.classList.remove('active'));           // 導覽每步點亮左側對應步驟
+    const na=links.find(l=>l.getAttribute('href')===s.nav);if(na)na.classList.add('active');
+    document.getElementById('ttext').innerHTML='<b>'+s.t+'</b><br>'+s.p;
+    document.getElementById('tnext').textContent=idx===STEPS.length-1?'開始動手 ✓':'下一步 →';
+    el.scrollIntoView({block:'center'});           // 已在 startTour 關掉平滑 → 瞬間定位
+    setTimeout(()=>drawFor(el),120);               // 讓 reflow/捲動落定再量
+  }
+  function startTour(f){if(!f&&localStorage.getItem('kg_seen_tour_v5b'))return;
+    document.documentElement.style.scrollBehavior='auto';idx=0;tour.classList.add('on');
+    ((document.fonts&&document.fonts.ready)||Promise.resolve()).then(()=>place());}
+  function nextTour(){idx<STEPS.length-1?(idx++,place()):endTour();}
+  function endTour(){tour.classList.remove('on');links.forEach(l=>l.classList.remove('active'));document.documentElement.style.scrollBehavior='';localStorage.setItem('kg_seen_tour_v5b','1');}
+  function cp(b,t){navigator.clipboard.writeText(t).then(()=>{b.textContent='已複製 ✓';b.classList.add('done');setTimeout(()=>{b.textContent='複製';b.classList.remove('done')},1600)}).catch(()=>{b.textContent='手動選取'});}
+  addEventListener('load',()=>setTimeout(()=>startTour(false),400));
+  addEventListener('resize',()=>{if(tour.classList.contains('on'))place();});
+</script>
+</body>
+</html>
