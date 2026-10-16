@@ -1,0 +1,162 @@
+<!doctype html>
+<!--
+  蒐證／檢舉／申訴報告模板｜知識包小腸 kg-evidence-report
+  用法：複製這支 → 填 {{...}} 的洞 → 刪用不到的段 → html_to_pdf.sh 轉 PDF（繁簡各一份）
+  鐵律：
+   1. 全文不露你自己的本名與帳號（匿名送件更安全）
+   2. 這套中性司法風 CSS 是驗證過的，不要改成花俏配色（這是正式送件文件）
+   3. 證據編號 E## 與 <figure> 的對應要對齊；內文 (E02) 用 <a href="#E02"> 做可點跳轉
+   4. 可信度標籤三選一：<span class="tag g">已查證</span> / <span class="tag a">當事人陳述</span> / <span class="tag r">網路傳言</span>
+-->
+<html lang="zh-Hant" kg-audience="external">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{報告標題}}</title>
+<style>
+:root{--ink:#1d1d1f;--sub:#55555a;--line:#dcdce0;--bg:#ffffff;--soft:#f5f5f7;--red:#b42318;--redbg:#fef3f2;--amb:#8a5a00;--ambbg:#fff6e0;--grn:#17692e;--grnbg:#ebf8ee;--gry:#5f5f64;--grybg:#efeff2;--mark:#e11d48}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.95 "PingFang TC","PingFang SC","Noto Sans TC","Noto Sans SC","Microsoft JhengHei","Microsoft YaHei",sans-serif;letter-spacing:.03em}
+.wrap{max-width:780px;margin:0 auto;padding:44px 22px 90px}
+h1{font-size:30px;line-height:1.5;margin:0 0 18px;letter-spacing:.02em}
+h2{font-size:25px;line-height:1.5;margin:64px 0 22px;padding-top:26px;border-top:3px solid var(--ink);display:flex;gap:12px;align-items:center}
+h2 .no{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-size:20px;flex:none}
+h3{font-size:21px;margin:34px 0 12px}
+p{margin:0 0 16px}
+b,strong{font-weight:700}
+.info{background:var(--soft);border-radius:14px;padding:18px 22px;font-size:17px;color:var(--sub);line-height:1.9}
+.info div{display:flex;gap:12px}.info span{flex:none;width:4.4em;color:var(--ink);font-weight:600}
+.big{background:var(--redbg);border:2px solid #f2c2bd;border-radius:16px;padding:24px 24px 10px;margin:20px 0}
+.big ol{margin:0;padding-left:0;list-style:none;counter-reset:n}
+.big li{counter-increment:n;position:relative;padding-left:46px;margin:0 0 20px}
+.big li::before{content:counter(n);position:absolute;left:0;top:3px;width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.big li b{display:block;font-size:21px;color:var(--red)}
+ul.list{margin:0 0 16px;padding:0;list-style:none}
+ul.list>li{position:relative;padding-left:26px;margin:0 0 16px}
+ul.list>li::before{content:"";position:absolute;left:4px;top:.75em;width:9px;height:9px;border-radius:50%;background:var(--ink)}
+ul.list>li b{display:block}
+.card{border:1.5px solid var(--line);border-radius:16px;padding:22px 24px;margin:0 0 18px;break-inside:avoid}
+.card h3{margin:0 0 12px}
+.ask{border-color:var(--ink)}
+.people{display:grid;gap:16px}
+.person{border:1.5px solid var(--line);border-radius:16px;padding:20px;display:flex;gap:18px;align-items:flex-start}
+.duo{display:flex;flex-direction:column;gap:10px;flex:none}
+.person img{width:88px;height:88px;border-radius:12px;object-fit:cover;border:1px solid var(--line)}
+.person .nm{font-size:22px;font-weight:700;margin-bottom:6px}
+.person ul.list{font-size:17.5px;margin:0}
+.person ul.list>li{margin:0 0 8px}
+.tl{list-style:none;margin:0;padding:0;border-left:3px solid var(--line);margin-left:8px}
+.tl li{position:relative;padding:0 0 30px 28px}
+.tl li::before{content:"";position:absolute;left:-10px;top:8px;width:17px;height:17px;border-radius:50%;background:#fff;border:3px solid var(--ink)}
+.tl .d{display:inline-block;font-weight:700;font-size:18px;background:var(--soft);border-radius:8px;padding:2px 12px;margin-bottom:8px}
+.tl .ev-ref{display:block;font-size:16px;color:var(--sub);margin-top:4px}
+.q{display:block;background:var(--soft);border-radius:10px;padding:10px 16px;margin:8px 0;font-size:18px}
+.tag{display:inline-block;font-size:15px;font-weight:700;padding:2px 10px;border-radius:99px;margin-right:6px;vertical-align:2px;letter-spacing:0}
+.g{background:var(--grnbg);color:var(--grn)}.a{background:var(--ambbg);color:var(--amb)}.r{background:var(--redbg);color:var(--red)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 4px}
+.cmp>div{border-radius:12px;padding:14px 18px;font-size:17.5px}
+.cmp .was{background:var(--grnbg)}.cmp .is{background:var(--redbg)}
+.cmp .h{font-weight:700;margin-bottom:4px}
+.legend{font-size:17px;color:var(--sub);background:var(--soft);border-radius:12px;padding:14px 18px}
+.legend div{margin:4px 0}
+.small{font-size:16px;color:var(--sub)}
+.ev{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin:16px 0;align-items:start}
+.ev figure{margin:0;border:1.5px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;break-inside:avoid}
+.ev img{width:100%;height:auto;display:block;border-bottom:1px solid var(--line)}
+.ev figcaption{font-size:17px;padding:12px 14px;line-height:1.75}
+.ev figcaption b{display:block;font-size:18px;margin-bottom:6px}
+.mark{display:inline-block;font-size:14px;font-weight:700;color:#fff;background:var(--mark);border-radius:6px;padding:0 8px;margin-right:8px;letter-spacing:0}
+@media (max-width:640px){body{font-size:18px}.wrap{padding:28px 16px 70px}h1{font-size:25px}h2{font-size:22px}.ev,.cmp{grid-template-columns:1fr}.person{flex-direction:column}.duo{flex-direction:row}}
+@media print{body{font-size:15px;line-height:1.8}.wrap{max-width:none;padding:0}h1{font-size:24px}h2{font-size:20px;margin-top:36px;break-after:avoid}h3{font-size:17px}.big li b{font-size:17px}.ev{display:block;columns:2;column-gap:18px}.ev figure{display:inline-block;width:100%;margin:0 0 18px}.ev img{max-height:215mm;width:auto;max-width:100%;margin:0 auto}.ev figcaption{font-size:13.5px}.ev figcaption b{font-size:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ========== 標題 ========== -->
+<h1>{{檢舉／申訴}}報告<br>{{事件一句話名稱}}<br><span style="white-space:nowrap">{{涉嫌的核心問題，如：涉嫌詐取保證金與虛假宣傳}}</span></h1>
+<div class="info">
+<div><span>{{對象欄名}}</span>{{被檢舉人／被申訴對象，一行一個}}</div>
+<div><span>事由</span>{{活動或交易名稱}}</div>
+<div><span>時間</span>{{發生日期區間}}</div>
+<div><span>地點</span>{{地點}}</div>
+<div><span>陳述人</span>{{用身分不用本名，如：參加本活動的台灣青年學員}}</div>
+<div><span>整理日期</span>{{YYYY/MM/DD}}</div>
+</div>
+
+<!-- ========== 1 一分鐘看懂（結論先行，最多 4 條） ========== -->
+<h2><span class="no">1</span>一分鐘看懂</h2>
+<div class="big"><ol>
+<li><b>{{一句話結論}}</b>{{兩三句展開，講清楚人事時地}}</li>
+<!-- 再複製 <li> 補其餘結論，最多 4 條 -->
+</ol></div>
+
+<!-- ========== 2 訴求（要對方做什麼，條列） ========== -->
+<h2><span class="no">2</span>{{檢舉訴求／申訴訴求}}</h2>
+<div class="card ask">
+<ul class="list">
+<li><b>一、{{訴求標題}}</b>{{具體要求調查/退款/停辦什麼}}</li>
+<!-- 再複製補其餘訴求 -->
+</ul>
+</div>
+
+<!-- ========== 3 被檢舉人（有人物才放；可放頭像） ========== -->
+<h2><span class="no">3</span>被{{檢舉／申訴}}人</h2>
+<div class="people">
+  <div class="person"><img src="證據圖/{{頭像檔}}" alt="{{姓名}}頭像"><div><div class="nm">{{姓名（身分）}}</div><ul class="list">
+  <li>{{身分/暱稱/帳號/公司，每條後附 (E##)}}</li>
+  </ul></div></div>
+  <!-- 多人再複製 .person；同一人多個頭像用 <div class="duo"><img..><img..></div> 包起來 -->
+</div>
+
+<!-- 三級可信度說明（固定放這，不要刪） -->
+<div class="legend">
+<div><b>怎麼看證據標示</b></div>
+<div><span class="tag g">已查證</span>官方公開資料，或當事人本人說過的話（有截圖或聊天紀錄）</div>
+<div><span class="tag a">當事人陳述</span>學員、介紹人親口說的，需要調查確認</div>
+<div><span class="tag r">網路傳言</span>匿名、來源不明，只供參考</div>
+<div>證據截圖裡的<b style="color:var(--mark)">紅框</b>是關鍵原話，紅框以外的內容沒有修改。</div>
+</div>
+
+<!-- ========== 4 事件始末（時間軸，每格可附證據編號） ========== -->
+<h2><span class="no">4</span>事件始末</h2>
+<ul class="tl">
+<li><span class="d">{{YYYY/MM/DD（週X）}}</span><br>{{那天發生什麼}}<span class="q">「{{關鍵原話，若有}}」</span><span class="ev-ref"><span class="tag g">已查證</span>證據 <a href="#E01">E01</a></span></li>
+<!-- 一天一格，照時間升序；原話用 <span class="q">，證據引用用 <a href="#E##"> -->
+</ul>
+
+<!-- ========== 5 理由（一個理由一張卡片） ========== -->
+<h2><span class="no">5</span>{{檢舉／申訴}}理由</h2>
+
+<div class="card"><h3>一、{{理由標題}}</h3>
+<ul class="list">
+<li><b>{{時間或面向}}</b>{{事實＋證據編號}}</li>
+</ul></div>
+
+<!-- 招生/承諾 vs 實際 的對照，用這組 .cmp（很有說服力，建議留） -->
+<div class="card"><h3>二、{{承諾與實際不符}}</h3>
+<div class="cmp"><div class="was"><div class="h">說好的（E##）</div>{{對方承諾}}</div><div class="is"><div class="h">實際（E##）</div>{{實際狀況}}</div></div>
+</div>
+
+<!-- ========== 6 背景起底（官方紀錄最有力，標已查證） ========== -->
+<h2><span class="no">6</span>{{對象}}的背景</h2>
+<div class="card"><h3><span class="tag g">已查證</span>{{官方來源，如：台灣法院公開紀錄}}</h3>
+<p>{{查到什麼，附查詢網址與查詢日}}</p>
+<ul class="list">
+<li><b>{{案號/紀錄類型}}</b>{{內容}}</li>
+</ul>
+<p class="small">查詢網址：{{url}}，關鍵字「{{姓名}}」，查詢日 {{YYYY/MM/DD}}。</p>
+</div>
+
+<!-- ========== 7 證據截圖（跑完 annotate.py 後，貼「標示」版） ========== -->
+<h2><span class="no">7</span>證據截圖</h2>
+<div class="ev">
+<figure id="E01"><img src="證據圖/標示/{{E01_檔名}}.jpg" alt="E01"><figcaption><b><span class="mark">E01</span>{{這張的一句話重點}}</b>{{紅框框的是哪句原話}}</figcaption></figure>
+<!-- 一張一個 <figure id="E##">；長截圖切成 _a/_b 就各放一個 figure -->
+</div>
+<p class="small">原始聊天紀錄、現場錄音、影片都由陳述人保存，可隨時提供。</p>
+
+</div>
+</body>
+</html>

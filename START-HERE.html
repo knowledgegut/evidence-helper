@@ -252,7 +252,7 @@
     <a href="#what" class="active"><span class="n">1</span>這是什麼</a>
     <a href="#flow"><span class="n">2</span>教學流程圖</a>
     <div class="grp">動手做</div>
-    <a href="#do"><span class="n">3</span>兩種用法</a>
+    <a href="#do"><span class="n">3</span>三種用法</a>
     <a href="#sample"><span class="n">4</span>成品 demo</a>
     <div class="grp">其他</div>
     <a href="#about"><span class="n">5</span>關於小腸</a>
@@ -266,9 +266,9 @@
   <header>
     <span class="eyebrow">知識包小腸 · 免費工具</span>
     <h1>被坑了？<br>把證據整理成能送件的報告</h1>
-    <p class="meta">不用註冊 ﹒ 交給你自己的 AI 整理 ﹒ 資料不上傳 ﹒ 全程 0 元</p>
+    <p class="meta">免費 Skill＋網頁版 ﹒ 交給你自己的 AI 整理 ﹒ 資料不上傳 ﹒ 全程 0 元</p>
     <div class="hero-btns">
-      <a class="dlbtn kg-dl" href="https://github.com/knowledgegut/evidence-helper/archive/refs/heads/main.zip" download><span>⬇ 下載這個工具</span><small>（.zip · 離線用）</small></a>
+      <a class="dlbtn kg-dl" href="https://github.com/knowledgegut/evidence-helper/archive/refs/heads/main.zip" download><span>⬇ 下載這個工具</span><small>（.zip · Skill＋網頁版）</small></a>
       <button class="startbtn" onclick="startTour(true)">▶ 第一次來？帶你看懂</button>
     </div>
   </header>
@@ -277,7 +277,7 @@
 
     <!-- 【簡介區】一句話 hook：這工具是什麼、幫對方解決什麼。保留「不用會寫程式、交給你的 AI」精神 -->
     <section id="what" class="card intro">
-      <p>Hi 朋友 👋 被爛平台、爛店、培訓營坑了，氣到不知道從哪裡開始？這是小腸老師做的免費工具：<b>丟截圖、用你自己的話講經過</b>，交給你習慣用的 AI 整理，就會自動生成一份<b>有條理、能送件的報告 PDF</b>。每條證據都標清楚「站多穩」，幫你討公道，<b>不讓你一時氣憤告過頭</b>。</p>
+      <p>Hi 朋友 👋 被爛平台、爛店、培訓營坑了，氣到不知道從哪裡開始？這是小腸老師做的免費工具：<b>丟截圖、用你自己的話講經過</b>，交給你習慣用的 AI 整理，就會自動生成一份<b>有條理、能送件的報告 PDF</b>。每條證據都標清楚「站多穩」，幫你討公道，<b>不讓你一時氣憤告過頭</b>。有 AI 代理人就裝成 Skill，什麼都不想裝就用網頁版。</p>
     </section>
 
     <div class="band" id="flow"><div class="b-en">HOW IT WORKS</div><div class="b-zh">教學流程圖</div></div>
@@ -294,11 +294,24 @@
       <div class="fc-term">✅ 一份能送件的報告 PDF</div>
     </div>
 
-    <div class="band" id="do"><div class="b-en">HOW TO USE</div><div class="b-zh">兩種用法，挑最適合你的</div></div>
+    <div class="band" id="do"><div class="b-en">HOW TO USE</div><div class="b-zh">三種用法，挑最適合你的</div></div>
 
     <div class="path">
-      <span class="ptag best">最推薦 · 打開就能用</span>
-      <h3>① 直接用線上版</h3>
+      <span class="ptag best">有 AI 代理人最推薦 · 整套自動跑</span>
+      <h3>① 裝成 Skill，交給你的 AI 代理人（Claude Code / Codex / Cursor）</h3>
+      <ol>
+        <li>按上面「下載這個工具」解壓縮，把裡面的 <b>skill/evidence-report</b> 整個資料夾放進你的 skill 資料夾（Claude Code 是 <b>.claude/skills/</b>）。</li>
+        <li>把截圖放進一個資料夾，跟你的 AI 說這句話（複製整段）：
+          <div class="copybox"><code>這是小腸老師給我的蒐證報告 Skill，請照 skill/evidence-report/SKILL.md 幫我把這個資料夾的截圖整理成一份能送件的報告。</code>
+            <button class="cp" onclick="cp(this,this.previousElementSibling.textContent)">複製</button></div></li>
+        <li>它會照時間排好、標可信度、自動在截圖上畫紅框、掃出不該露的個資，最後產出 PDF。</li>
+      </ol>
+      <div class="tip">💡 畫紅框和遮個資掃描用的是 macOS 內建文字辨識；Windows 也能做報告，只是這兩步要自己處理。</div>
+    </div>
+
+    <div class="path">
+      <span class="ptag">什麼都不想裝 · 打開就能用</span>
+      <h3>② 直接用網頁版</h3>
       <ol>
         <li>手機或電腦打開 <a class="filelink" href="https://knowledgegut.com/evidence" target="_blank" rel="noopener">https://knowledgegut.com/evidence</a>，不用註冊、不用下載。</li>
         <li>照頁面上的 ①②③ 步驟走：丟截圖講經過 → 一鍵複製指令貼給你的 AI → 把 AI 的回覆貼回來。</li>
@@ -307,12 +320,11 @@
     </div>
 
     <div class="path">
-      <span class="ptag">想離線用 · 不用安裝任何東西</span>
-      <h3>② 下載到自己的電腦</h3>
+      <span class="ptag">想離線用網頁版</span>
+      <h3>③ 下載網頁版到自己的電腦</h3>
       <ol>
-        <li>按上面「下載這個工具」，解壓縮後打開 <b>evidence-helper-main</b> 資料夾。</li>
-        <li>用瀏覽器打開裡面的 <a class="filelink" href="index.html">index.html</a>，斷網也能用。</li>
-        <li>用法跟線上版一樣；草稿只存在這台電腦，按「清空」就刪掉。</li>
+        <li>解壓縮後用瀏覽器打開 <a class="filelink" href="index.html">index.html</a>，斷網也能用。</li>
+        <li>草稿只存在這台電腦，按「清空」就刪掉。</li>
       </ol>
       <div class="tip">💡 這是整理工具，不是法律意見。報告是「送件用」不是「公審用」：交給官方、平台、律師或對方本人就好，不要公開張貼。</div>
     </div>
@@ -328,6 +340,7 @@
              style="width:100%;max-width:380px;border-radius:14px;display:block;margin:0 auto"></video>
       <p style="margin:12px 0 0;font-size:15px;color:var(--grey);text-align:center">▲ 從丟內容到報告出來（範例是虛構案例，換成你自己的就會做出你的報告）</p>
       <div class="demo-links">
+        <a class="demo-dl kg-dl" href="samples/範例報告_虛構案例.pdf" target="_blank" rel="noopener"><span>📄 看完整範例報告（PDF）</span></a>
         <a class="demo-dl kg-dl" href="demo/evidence-helper-demo.mp4" download><span>⬇ 下載示範影片</span></a>
       </div>
     </section>
@@ -434,7 +447,7 @@
   const STEPS=[
     {el:'#topbar', nav:'#what', t:'頁首常駐列', p:'這條會一直跟著你：左邊小腸 logo、中間工具名，右邊「下載工具」隨時都能點。'},
     {el:'#flow', nav:'#flow', t:'這是「教學流程圖」', p:'整個工具的邏輯就三步：丟截圖講經過 → 交給你的 AI → 貼回來自動出報告。'},
-    {el:'#do', nav:'#do', t:'兩種用法挑一個', p:'最推薦第①種：直接打開線上版，照頁面上的三步走就好。想離線用再下載。'},
+    {el:'#do', nav:'#do', t:'三種用法挑一個', p:'有 Claude Code 這類 AI 代理人就裝 Skill；什麼都不想裝就直接用網頁版。'},
     {el:'#sample', nav:'#sample', t:'成品長這樣', p:'40 秒示範影片，從丟內容到報告出來（範例是虛構案例）。'},
     {el:'#gift', nav:'#gift', t:'還有免費禮物 🎁', p:'看到最後有我送你的免費 Heptabase 工作坊，點圖就能領。'}
   ];

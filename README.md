@@ -19,11 +19,22 @@
 
 ---
 
-## 👉 最快：直接用線上版
+## 🎁 兩種用法，挑一個
+
+**① 你有 AI 代理人（Claude Code、Codex、Cursor）→ 裝 Skill**
+
+1. 按這頁上方綠色的 **Code** → **Download ZIP**，解壓縮
+2. 把 `skill/evidence-report` 整個資料夾放進你的 skill 資料夾（Claude Code 是 `.claude/skills/`）
+3. 跟你的 AI 說：「這是小腸老師給我的蒐證報告 Skill，請照它的 SKILL.md 幫我把這些截圖整理成報告」
+
+它會幫你：照時間排好每件事、每個重點標出是哪張截圖證明的、每條證據標可信度、自動在截圖上畫紅框、掃出不該露的個資，最後產出 PDF。
+先看成品長怎樣：[範例報告（虛構案例）](samples/範例報告_虛構案例.pdf)
+
+**② 什麼都不想裝 → 用網頁版**
 
 **https://knowledgegut.com/evidence**
 
-手機、電腦都能開，不用註冊、不用下載。
+手機、電腦都能開，不用註冊、不用下載，用你平常的 ChatGPT、Gemini 就能整理。
 
 ---
 
