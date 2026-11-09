@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # HTML → PDF｜知識包小腸蒐證技能包 kg-evidence-report
 # 用 Chrome 無頭當「純 PDF 後端」（吃報告模板的 @media print CSS：分欄、不切斷卡片）。
-# 只支援 macOS 的 Chrome；Windows／沒裝 Chrome：用瀏覽器打開報告 HTML → 列印 → 另存 PDF。
+# 這支只給 macOS＋Chrome；Windows（或沒裝 Chrome）改用 python scripts/html_to_pdf.py，自動找 Edge／Chrome。
 #
 # 用法: bash html_to_pdf.sh <報告.html> [輸出.pdf]
 #   不給輸出路徑 → 同名 .pdf

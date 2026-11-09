@@ -6,29 +6,24 @@
 ① 你自己的本名／帳號（不露自己）② 同行者本名 ③ 不該外流的第三方個資。
 命中的圖 → 必須裁掉該段或遮掉，才能進報告。
 
-用同一顆 ocrbox（取文字欄），不另裝 OCR。
+跟畫紅框用同一顆文字辨識（macOS ocrbox／Windows ocrbox.ps1，取文字欄），不另裝 OCR。
 
 用法:
-    swiftc scripts/ocrbox.swift -o scripts/ocrbox   # 只需一次
+    swiftc scripts/ocrbox.swift -o scripts/ocrbox   # 只需一次（macOS；Windows 不用，自動走 scripts/ocrbox.ps1）
     python3 scripts/anonymize_scan.py --src <證據圖資料夾> \
         --block "<你的本名>,<你的帳號>,<同行者本名>,<其他要擋的字>"
     # 或把要擋的字一行一個寫進檔案：--blockfile blocklist.txt
 
 擋字清單一定要自己填（你的名字、帳號、同行者、不該外流的資訊）。
 """
-import subprocess, os, sys, argparse, glob
+import os, sys, argparse, glob
+from ocr_engine import ocr_lines  # 同資料夾：macOS 走 ocrbox、Windows 走 ocrbox.ps1
 
 DEFAULT_BLOCK = []
 EXTS = ("*.png", "*.jpg", "*.jpeg", "*.PNG", "*.JPG", "*.JPEG")
 
-def ocr_text(ocr_bin, img):
-    out = subprocess.run([ocr_bin, img], capture_output=True, text=True).stdout
-    toks = []
-    for l in out.splitlines():
-        parts = l.split("\t")
-        if len(parts) >= 5:
-            toks.append(parts[4])
-    return " ".join(toks)
+def ocr_text(img):
+    return " ".join(parts[4] for parts in ocr_lines(img))
 
 def main():
     ap = argparse.ArgumentParser()
@@ -36,10 +31,6 @@ def main():
     ap.add_argument("--block", default="", help="要擋的字，逗號分隔")
     ap.add_argument("--blockfile", default=None, help="要擋的字，一行一個")
     a = ap.parse_args()
-
-    ocr_bin = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ocrbox")
-    if not os.path.exists(ocr_bin):
-        sys.exit("❌ 找不到 ocrbox，先編譯：swiftc scripts/ocrbox.swift -o scripts/ocrbox")
 
     block = list(DEFAULT_BLOCK)
     block += [w.strip() for w in a.block.split(",") if w.strip()]
@@ -54,7 +45,7 @@ def main():
     print(f"🔍 掃描 {len(imgs)} 張圖，擋字清單：{block}\n")
     flagged = []
     for img in imgs:
-        text = ocr_text(ocr_bin, img)
+        text = ocr_text(img)
         hits = [w for w in block if w.lower() in text.lower()]
         name = os.path.basename(img)
         if hits:

@@ -28,10 +28,25 @@ description: >
 1. ☐ **收齊素材＋分級**：截圖、聊天、錄音、官方紀錄歸位，每條標 🟢已查證／🟡當事人陳述／🔴網路傳言（定義見 `references/報告結構與可信度分級.md`）。
 2. ☐ **錄音轉逐字稿**（有錄音才做）：原檔與逐字稿都留存，不剪、不刪。
 3. ☐ **背景查證**：只用官方公開紀錄（例：台灣經濟部商工登記、司法院裁判書查詢），附查詢網址與查詢日期。
-4. ☐ **重點畫紅框**（macOS）：照 `specs/範例_虛構案例.json` 的格式寫設定檔 → 跑 `scripts/annotate.py` → 檢查每張都框到。
+4. ☐ **重點畫紅框**（macOS／Windows 都行）：照 `specs/範例_虛構案例.json` 的格式寫設定檔 → 跑 `scripts/annotate.py --src <截圖資料夾> --spec <設定檔>` → 檢查每張都框到。
 5. ☐ **填報告模板**：`templates/report-template.html`，結論先行、訴求放前面、內文證據編號可點跳轉。
-6. ☐ **遮個資掃描**（macOS，產 PDF 之前一定要做）：`scripts/anonymize_scan.py --block "<你的本名>,<帳號>,<同行者>"`，命中的圖裁掉或遮掉。
-7. ☐ **產 PDF**：`bash scripts/html_to_pdf.sh 報告.html`（Windows：瀏覽器打開 → 列印 → 另存 PDF），打開看一眼圖有出來、沒切版。
+6. ☐ **遮個資掃描**（macOS／Windows 都行，產 PDF 之前一定要做）：`scripts/anonymize_scan.py --src <截圖資料夾> --block "<你的本名>,<帳號>,<同行者>"`，命中的圖裁掉或遮掉。
+7. ☐ **產 PDF**：`python3 scripts/html_to_pdf.py 報告.html`（macOS／Windows 都行，自動找 Chrome 或 Edge），打開看一眼圖有出來、沒切版。
+
+---
+
+## 第一次用：看電腦是 macOS 還是 Windows
+
+兩邊都要 Python 3 和 Pillow（`pip install pillow`）。指令裡的 `python3` 在 Windows 換成 `python`（或 `py`）。
+
+| | macOS | Windows 10／11 |
+|---|---|---|
+| 文字辨識（畫紅框、遮個資用） | 內建 Vision。先編譯一次：`swiftc scripts/ocrbox.swift -o scripts/ocrbox`（沒有 swiftc 就先跑 `xcode-select --install`） | 內建 Windows 文字辨識，不用編譯，腳本自動呼叫 `scripts/ocrbox.ps1` |
+| 產 PDF | 用 Chrome（或 Edge）；也可用 `bash scripts/html_to_pdf.sh` | 用內建的 Edge（或 Chrome） |
+
+- **Windows 跳出「沒裝中文文字辨識」**：照提示補裝（免費）：用系統管理員身分開 PowerShell 執行 `Add-WindowsCapability -Online -Name 'Language.OCR~~~zh-TW~0.0.1.0'`，或到「設定 → 時間與語言 → 語言」新增「中文（繁體，台灣）」。沒裝會辨識不到中文，紅框框不到、個資也掃不到，**一定要補裝再跑**。
+- **截圖是簡體字**（Windows）：先補裝 `Language.OCR~~~zh-CN~0.0.1.0`，執行前設環境變數 `KG_OCR_LANG=zh-Hans-CN`（PowerShell：`$env:KG_OCR_LANG='zh-Hans-CN'`）。
+- **哪張圖一個框都沒框到**：先檢查設定檔的字跟截圖上的字（簡繁、標點、空白）是不是完全一樣；Windows 辨識偶爾會把相似字認錯，必要時手動補框。
 
 ---
 
@@ -49,10 +64,13 @@ description: >
 
 | 檔 | 做什麼 |
 |----|--------|
-| `scripts/ocrbox.swift` | macOS Vision 文字辨識，吐文字＋座標。先跑一次 `swiftc scripts/ocrbox.swift -o scripts/ocrbox` |
+| `scripts/ocrbox.swift` | macOS 文字辨識（Vision），吐文字＋座標。先跑一次 `swiftc scripts/ocrbox.swift -o scripts/ocrbox` |
+| `scripts/ocrbox.ps1` | Windows 文字辨識（內建 Windows.Media.Ocr），吐跟 ocrbox 一樣的格式，不用安裝 |
+| `scripts/ocr_engine.py` | 自動判斷 macOS／Windows，叫對的文字辨識（下面兩支共用） |
 | `scripts/annotate.py` | 讀設定檔，自動在證據截圖上畫紅框、長截圖自動裁段 |
 | `scripts/anonymize_scan.py` | 掃證據圖有沒有露出不該露的名字或個資 |
-| `scripts/html_to_pdf.sh` | 報告 HTML 轉 PDF（macOS Chrome） |
+| `scripts/html_to_pdf.py` | 報告 HTML 轉 PDF（macOS／Windows，自動找 Chrome 或 Edge） |
+| `scripts/html_to_pdf.sh` | 報告 HTML 轉 PDF（macOS Chrome 舊版做法，結果一樣） |
 | `templates/report-template.html` | 報告骨架＋送件用的版面 |
 | `references/報告結構與可信度分級.md` | 報告分段與三級可信度怎麼標 |
 | `specs/範例_虛構案例.json` | 紅框設定檔範例（虛構） |

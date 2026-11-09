@@ -5,10 +5,10 @@
 把一批證據截圖裡的「關鍵原話」自動畫上紅框，長截圖自動裁到有紅框的段落。
 紅框以外的內容一字不改 ← 這是證據的公信力來源（報告 legend 會寫明）。
 
-OCR 引擎用 ocrbox（macOS 內建 Vision，吐文字＋像素座標，才能定位畫框）。
+OCR 引擎：macOS 用 ocrbox（內建 Vision）、Windows 用 ocrbox.ps1（內建 Windows.Media.Ocr），都吐文字＋像素座標，才能定位畫框。
 
 用法:
-    # 1. 先編譯 OCR 引擎（只需一次）
+    # 1. macOS 先編譯 OCR 引擎（只需一次）；Windows 不用，會自動用內建文字辨識（scripts/ocrbox.ps1）
     swiftc scripts/ocrbox.swift -o scripts/ocrbox
     # 2. 跑標示
     python3 scripts/annotate.py --src <證據圖資料夾> --spec <spec.json> [--out <輸出資料夾>]
@@ -25,8 +25,9 @@ spec.json 格式（兩種寫法，可混用）:
 
 輸出: <out>/<同檔名>.jpg（長截圖切多張時加 _a/_b/_c…）+ _index.json（每張框了幾個、輸出哪些）
 """
-import subprocess, json, os, sys, argparse
+import json, os, sys, argparse
 from PIL import Image, ImageDraw
+from ocr_engine import ocr_lines  # 同資料夾：macOS 走 ocrbox、Windows 走 ocrbox.ps1
 
 RED = (225, 29, 72)  # 與報告模板 --mark 同色
 
@@ -44,10 +45,6 @@ def load_spec(path):
                         "manual_crops": v.get("manual_crops", [])}
     return norm
 
-def ocr_lines(ocr_bin, img_path):
-    out = subprocess.run([ocr_bin, img_path], capture_output=True, text=True).stdout
-    return [l.split("\t") for l in out.splitlines() if l.count("\t") >= 4]
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--src", required=True, help="證據圖資料夾")
@@ -58,10 +55,6 @@ def main():
     src = a.src
     out = a.out or os.path.join(src, "標示")
     os.makedirs(out, exist_ok=True)
-    ocr_bin = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ocrbox")
-    if not os.path.exists(ocr_bin):
-        sys.exit("❌ 找不到 ocrbox 執行檔，先編譯：swiftc scripts/ocrbox.swift -o scripts/ocrbox")
-
     spec = load_spec(a.spec)
     res = {}
     for fn, cfg in spec.items():
@@ -70,7 +63,7 @@ def main():
             print(f"⚠️  跳過（找不到檔）: {fn}"); continue
         keys, skip_single = cfg["keys"], set(cfg["skip_single"])
         im = Image.open(p).convert("RGB"); W, H = im.size
-        lines = ocr_lines(ocr_bin, p)
+        lines = ocr_lines(p)
 
         # 1. 比對關鍵句 → 命中的文字外框
         hits = []
@@ -119,7 +112,8 @@ def main():
         res[fn] = {"boxes": len(boxes), "outs": outs}
         print(f"{fn}  紅框 {len(boxes)}  →  {outs}")
 
-    json.dump(res, open(os.path.join(out, "_index.json"), "w"), ensure_ascii=False, indent=1)
+    # encoding 一定要寫：Windows 預設 cp1252／cp950，中文檔名寫到一半就當掉（2026-11-10 雲端 Windows 實測）
+    json.dump(res, open(os.path.join(out, "_index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n✅ 完成，輸出在 {out}/（_index.json 有清單）")
     miss = [fn for fn, r in res.items() if r["boxes"] == 0]
     if miss:
