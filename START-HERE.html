@@ -311,7 +311,34 @@
             <button class="cp" onclick="cp(this,this.previousElementSibling.textContent)">複製</button></div></li>
         <li>它會照時間排好、標可信度、自動在截圖上畫紅框、掃出不該露的個資，最後產出 PDF。</li>
       </ol>
-      <div class="tip">💡 Mac 和 Windows 都能整套跑完：畫紅框、遮個資掃描用電腦內建的文字辨識（Mac 第一次會先編譯一個小工具；Windows 若提示沒裝中文辨識，照提示補裝一次，免費），PDF 用 Chrome 或 Edge 產（Windows 內建 Edge）。你的 AI 會照 Skill 說明自己處理。</div>
+      <div class="tip">💡 Mac 和 Windows 都能整套跑完：畫紅框、遮個資掃描用電腦內建的文字辨識（Mac 第一次會先編譯一個小工具；Windows 若提示沒裝中文辨識，照提示補裝一次，免費），PDF 用 Chrome 或 Edge 產（Windows 內建 Edge）。你的 AI 會照 Skill 說明自己處理。用 Windows 的看下面那段。</div>
+    </div>
+
+    <div class="path" id="win">
+      <span class="ptag">用 Windows 的看這裡 · 雲端 Windows 實測過</span>
+      <h3>Windows 第一次跑 Skill，照這幾步</h3>
+      <ol>
+        <li><b>還沒有 Python</b>（打 <b>python</b> 跳出 Microsoft Store 就是沒有）：到 <a class="filelink" href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a> 下載安裝，<b>安裝第一頁一定要勾「Add python.exe to PATH」</b>，裝完把 PowerShell 關掉重開。</li>
+        <li>第一次畫紅框跳出「沒裝中文文字辨識」是正常的，照提示補裝一次（免費）。</li>
+      </ol>
+      <img src="assets/win/win-1-no-ocr.webp" alt="沒裝中文文字辨識的提示" loading="lazy" style="width:100%;border-radius:12px;margin:10px 0 4px;display:block">
+      <ol start="3">
+        <li>在開始鍵按右鍵選 <b>「終端機（系統管理員）」</b>，貼上提示裡那行補裝。<b>會跑 10 到 20 分鐘，畫面不動是正常的，別關視窗</b>；裝完同一個視窗就能用，不用重開機。</li>
+      </ol>
+      <img src="assets/win/win-2-install-ocr.webp" alt="用系統管理員補裝中文辨識" loading="lazy" style="width:100%;border-radius:12px;margin:10px 0 4px;display:block">
+      <ol start="4">
+        <li>裝好再跑一次，重點句就自動畫上紅框。</li>
+      </ol>
+      <img src="assets/win/win-3-redbox.webp" alt="紅框成品" loading="lazy" style="width:100%;border-radius:12px;margin:10px 0 4px;display:block">
+      <ol start="5">
+        <li>程式說「<b>這幾句沒框到</b>」時，打開那張圖確認，必要時手動補框（Windows 辨識偶爾會把相似字認錯）。</li>
+      </ol>
+      <img src="assets/win/win-4-missing.webp" alt="有句子沒框到時的提醒" loading="lazy" style="width:100%;border-radius:12px;margin:10px 0 4px;display:block">
+      <ol start="6">
+        <li>產好的 PDF 用內建的 Edge 打開看一眼：中文正常、版面沒切。</li>
+      </ol>
+      <img src="assets/win/win-5-pdf.webp" alt="用 Edge 打開 PDF" loading="lazy" style="width:100%;border-radius:12px;margin:10px 0 4px;display:block">
+      <p style="color:var(--grey);font-size:16px">這幾張是 2026-11-10 在雲端 Windows 照上面步驟真的跑出來的截圖。測試機是英文介面，中文 Windows 步驟一樣，只是按鈕與選單是中文。</p>
     </div>
 
     <div class="path">
@@ -426,7 +453,7 @@
 <div class="kgg-grid">
 <a class="kgg-card kgg-hero" href="https://knowledgegut.com/rescue" target="_blank" rel="noopener"><img loading="lazy" src="https://kg-rescue-guide.pages.dev/img/cover.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">免費指南・AI 入門</span><b class="kgg-t">《收藏救援指南》上篇</b><span class="kgg-d">收藏 500 篇卻一篇都沒用過？真心想學 AI，先用三個問題把收藏分成三堆。附現場練習，8 分鐘讀完。</span><span class="kgg-go">免費領取 →</span></span></a>
 <a class="kgg-card" href="https://join.knowledgegut.com/heptabase-7-days-workshop" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-workshop.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">影片課・Email 課</span><b class="kgg-t">《7 天上手 Heptabase 工作坊！從 0 開始打造你的知識庫》</b><span class="kgg-d">每天 10 分鐘，7 天做出妳自己的知識庫。《13 種情境靈感包》也收在裡面。</span><span class="kgg-go">免費報名 →</span></span></a>
-<a class="kgg-card" href="https://knowledgegut.com/coin" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-coin.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">AI 工具</span><b class="kgg-t">註冊送 2,000 樂狗幣，換《不廢話》</b><span class="kgg-d">註冊就送幣，換一支讓 AI 直接講重點的 skill。</span><span class="kgg-go">免費註冊領幣 →</span></span></a>
+<a class="kgg-card" href="https://knowledgegut.com/coin" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-coin.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">AI 工具</span><b class="kgg-t">註冊送 8,888 樂狗幣，換《不廢話》</b><span class="kgg-d">註冊就送幣，換一支讓 AI 直接講重點的 skill。</span><span class="kgg-go">免費註冊領幣 →</span></span></a>
 <a class="kgg-card" href="https://knowledgegut.com/evidence" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-evidence.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">線上工具</span><b class="kgg-t">《蒐證幫手》</b><span class="kgg-d">丟截圖、講經過，AI 幫妳整理成證據報告。</span><span class="kgg-go">免費使用 →</span></span></a>
 <a class="kgg-card" href="https://chatstory-chd.pages.dev/" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-chat.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">線上工具</span><b class="kgg-t">《聊天成績單》</b><span class="kgg-d">丟一段聊天紀錄，看妳們的對話拿幾分。</span><span class="kgg-go">免費試玩 →</span></span></a>
 <a class="kgg-card" href="https://knowledgegut.com/weather" target="_blank" rel="noopener"><img loading="lazy" src="https://knowledgegut.com/wp-content/uploads/2026/11/kggift-weather-12all.webp" alt=""><span class="kgg-tx"><span class="kgg-tag">桌面小工具</span><b class="kgg-t">《桌面天氣》</b><span class="kgg-d">雪花、蜂蜜、櫻花落在妳的電腦視窗上，Mac、Windows 都能用，會堆積、能甩掉，十二種天氣隨妳換。</span><span class="kgg-go">免費下載 →</span></span></a>

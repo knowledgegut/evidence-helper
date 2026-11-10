@@ -66,12 +66,13 @@ def main():
         lines = ocr_lines(p)
 
         # 1. 比對關鍵句 → 命中的文字外框
-        hits = []
+        hits = []; found = set()
         for x0, y0, x1, y1, t in lines:
             for k in keys:
                 ok = (t.strip() == k) if k in skip_single else (k in t)
                 if ok:
-                    hits.append([int(float(x0)), int(float(y0)), int(float(x1)), int(float(y1))]); break
+                    hits.append([int(float(x0)), int(float(y0)), int(float(x1)), int(float(y1))]); found.add(k); break
+        lost = [k for k in keys if k not in found]
 
         # 2. 垂直相鄰的框合併成一塊
         hits.sort(key=lambda b: b[1]); boxes = []
@@ -109,8 +110,10 @@ def main():
                 o = o.resize((1100, int(o.height * 1100 / o.width)))
             name = f"{base}{'' if len(crops) == 1 else '_' + 'abcdefg'[i]}.jpg"
             o.save(os.path.join(out, name), quality=85); outs.append(name)
-        res[fn] = {"boxes": len(boxes), "outs": outs}
+        res[fn] = {"boxes": len(boxes), "outs": outs, "missing": lost}
         print(f"{fn}  紅框 {len(boxes)}  →  {outs}")
+        if lost and boxes:  # 有框到一部分、但有幾句沒找到 → 也要講，不然使用者以為全框到了
+            print(f"   ⚠️  這幾句沒框到（文字辨識可能看錯字，請打開圖確認，必要時手動補框）：{lost}")
 
     # encoding 一定要寫：Windows 預設 cp1252／cp950，中文檔名寫到一半就當掉（2026-11-10 雲端 Windows 實測）
     json.dump(res, open(os.path.join(out, "_index.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)

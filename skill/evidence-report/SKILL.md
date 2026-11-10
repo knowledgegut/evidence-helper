@@ -39,14 +39,16 @@ description: >
 
 兩邊都要 Python 3 和 Pillow（`pip install pillow`）。指令裡的 `python3` 在 Windows 換成 `python`（或 `py`）。
 
+- **Windows 還沒有 Python**（打 `python` 跳出 Microsoft Store 就是沒有）：到 https://www.python.org/downloads/ 下載安裝，**安裝第一頁一定要勾「Add python.exe to PATH」**，裝完把 PowerShell 關掉重開再打 `python --version`。
+
 | | macOS | Windows 10／11 |
 |---|---|---|
 | 文字辨識（畫紅框、遮個資用） | 內建 Vision。先編譯一次：`swiftc scripts/ocrbox.swift -o scripts/ocrbox`（沒有 swiftc 就先跑 `xcode-select --install`） | 內建 Windows 文字辨識，不用編譯，腳本自動呼叫 `scripts/ocrbox.ps1` |
 | 產 PDF | 用 Chrome（或 Edge）；也可用 `bash scripts/html_to_pdf.sh` | 用內建的 Edge（或 Chrome） |
 
-- **Windows 跳出「沒裝中文文字辨識」**：照提示補裝（免費）：用系統管理員身分開 PowerShell 執行 `Add-WindowsCapability -Online -Name 'Language.OCR~~~zh-TW~0.0.1.0'`，或到「設定 → 時間與語言 → 語言」新增「中文（繁體，台灣）」。沒裝會辨識不到中文，紅框框不到、個資也掃不到，**一定要補裝再跑**。
+- **Windows 跳出「沒裝中文文字辨識」**：照提示補裝（免費）：在開始鍵按右鍵選「終端機（系統管理員）」或「Windows PowerShell（系統管理員）」，執行 `Add-WindowsCapability -Online -Name 'Language.OCR~~~zh-TW~0.0.1.0'`，或到「設定 → 時間與語言 → 語言」新增「中文（繁體，台灣）」。**會跑 10 到 20 分鐘、中間畫面不動是正常的，別關視窗**；裝完同一個視窗就能用，不用重開機。沒裝會辨識不到中文，紅框框不到、個資也掃不到，**一定要補裝再跑**。
 - **截圖是簡體字**（Windows）：先補裝 `Language.OCR~~~zh-CN~0.0.1.0`，執行前設環境變數 `KG_OCR_LANG=zh-Hans-CN`（PowerShell：`$env:KG_OCR_LANG='zh-Hans-CN'`）。
-- **哪張圖一個框都沒框到**：先檢查設定檔的字跟截圖上的字（簡繁、標點、空白）是不是完全一樣；Windows 辨識偶爾會把相似字認錯，必要時手動補框。
+- **程式說「這幾句沒框到」或哪張圖一個框都沒框到**：打開那張圖確認，先檢查設定檔的字跟截圖上的字（簡繁、標點、空白）是不是完全一樣；Windows 辨識偶爾會把相似字認錯（例如把一行短字拆成上下兩半），必要時手動補框，或改用那一行裡比較長、比較常見的一段字當關鍵句。
 
 ---
 
